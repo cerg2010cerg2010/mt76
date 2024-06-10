@@ -6,6 +6,7 @@
 #ifndef __MT76_H
 #define __MT76_H
 
+#include <linux/version.h>
 #include <linux/kernel.h>
 #include <linux/io.h>
 #include <linux/spinlock.h>
@@ -15,6 +16,7 @@
 #include <linux/average.h>
 #include <linux/soc/mediatek/mtk_wed.h>
 #include <net/mac80211.h>
+#include <net/netlink.h>
 #include "util.h"
 #include "testmode.h"
 

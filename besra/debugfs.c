@@ -557,7 +557,7 @@ besra_ampdu_stat_read_phy(struct besra_phy *phy,
 	for (i = 0; i < ARRAY_SIZE(bound); i++)
 		bound[i] = MT_MIB_ARNCR_RANGE(range[i / 4], i % 4) + 1;
 
-	seq_printf(file, "\nPhy %d, Phy band %d\n", phy->band_idx);
+	seq_printf(file, "\nPhy %d, Phy band %d\n", besra_get_phy_id(phy), phy->band_idx);
 
 	seq_printf(file, "Length: %8d | ", bound[0]);
 	for (i = 0; i < ARRAY_SIZE(bound) - 1; i++)
@@ -1057,8 +1057,8 @@ static ssize_t besra_sta_fixed_rate_set(struct file *file,
 
 	phy.ldpc = (phy.bw || phy.ldpc) * GENMASK(2, 0);
 	for (i = 0; i <= phy.bw; i++) {
-		phy.sgi |= gi << (i << sta->he_cap.has_he);
-		phy.he_ltf |= he_ltf << (i << sta->he_cap.has_he);
+		phy.sgi |= gi << (i << sta->deflink.he_cap.has_he);
+		phy.he_ltf |= he_ltf << (i << sta->deflink.he_cap.has_he);
 	}
 	field = RATE_PARAM_FIXED;
 

@@ -9,7 +9,7 @@ int besra_init_tx_queues(struct besra_phy *phy, int idx, int n_desc, int ring_ba
 {
 	int i, err;
 
-	err = mt76_init_tx_queue(phy->mt76, 0, idx, n_desc, ring_base);
+	err = mt76_init_tx_queue(phy->mt76, 0, idx, n_desc, ring_base, 0);
 	if (err < 0)
 		return err;
 
@@ -343,8 +343,8 @@ int besra_dma_init(struct besra_dev *dev)
 	if (ret < 0)
 		return ret;
 
-	netif_tx_napi_add(&dev->mt76.tx_napi_dev, &dev->mt76.tx_napi,
-			  besra_poll_tx, NAPI_POLL_WEIGHT);
+	netif_napi_add_tx_weight(&dev->mt76.tx_napi_dev, &dev->mt76.tx_napi,
+				 besra_poll_tx, NAPI_POLL_WEIGHT);
 	napi_enable(&dev->mt76.tx_napi);
 
 	besra_dma_enable(dev);

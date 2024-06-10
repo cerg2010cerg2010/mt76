@@ -495,7 +495,8 @@ static int besra_config(struct ieee80211_hw *hw, u32 changed)
 }
 
 static int
-besra_conf_tx(struct ieee80211_hw *hw, struct ieee80211_vif *vif, u16 queue,
+besra_conf_tx(struct ieee80211_hw *hw, struct ieee80211_vif *vif,
+	       unsigned int link_id, u16 queue,
 	       const struct ieee80211_tx_queue_params *params)
 {
 	struct besra_vif *mvif = (struct besra_vif *)vif->drv_priv;
@@ -589,7 +590,7 @@ besra_update_bss_color(struct ieee80211_hw *hw,
 static void besra_bss_info_changed(struct ieee80211_hw *hw,
 				    struct ieee80211_vif *vif,
 				    struct ieee80211_bss_conf *info,
-				    u32 changed)
+				    u64 changed)
 {
 	struct besra_phy *phy = besra_hw_phy(hw);
 	struct besra_dev *dev = besra_hw_dev(hw);
@@ -609,7 +610,7 @@ static void besra_bss_info_changed(struct ieee80211_hw *hw,
 	}
 
 	if (changed & BSS_CHANGED_ASSOC) {
-		besra_mcu_add_bss_info(phy, vif, info->assoc);
+		besra_mcu_add_bss_info(phy, vif, vif->cfg.assoc);
 		besra_mcu_add_obss_spr(dev, vif, info->he_obss_pd.enable);
 	}
 
